@@ -10,12 +10,24 @@ int main(void)
 {
    char *str;
    char *delim = " \t\n";
-   str = read(0, buffer, size);
-   if (str == NULL)
-   return(NULL);
+   char *token;
+   int nb, i;
+   char buffer[1024];
+   nb = read(0, buffer, 1023);
+   if (nb <= 0)
+   return (1);
+   else
+   buffer[nb] = '\0';
+   str = buffer;
    token = strtok(str, delim);
+   
+
    while (token != NULL)
    {
+      for (i = 0; token[i] != '\0'; i++)
+      {}
+      write (1, token, i);
    token = strtok(NULL, delim);
    }
+   return (0);
 }
