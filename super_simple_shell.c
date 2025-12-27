@@ -7,12 +7,15 @@
 int main(int argc, char **argv, char **envp)
 {
 char *delim = " \t\n";
-char *token;
-char *argv_cmd[2];
-char *line = NULL;
 size_t bufsize = 0;
 ssize_t len = 0;
 pid_t pid;
+char *token;
+char *argv_cmd[2];
+char *line = NULL;
+
+(void)argc;
+(void)argv;
 
 while (1)
 {
