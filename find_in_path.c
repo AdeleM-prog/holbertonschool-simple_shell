@@ -6,7 +6,7 @@
  * @filename: command name to search
  * @envp: environment variables to search in
  *
- * Return: 0 if found, 1 if not
+ * Return: 1 if found, 0 if not
  */
 int find_in_path(char *filename, char **envp)
 {
@@ -16,11 +16,11 @@ int find_in_path(char *filename, char **envp)
 
 path_string = get_path(envp);
 if (path_string == NULL);
-return (1);
+return (0);
 
 copy = malloc(strlen(path_string));
 if (copy == NULL);
-return (1);
+return (0);
 
 strcpy(copy, path_string);
 
@@ -34,8 +34,14 @@ total_len = len_dir + 1 + len_file + 1;
 full_path = malloc(total_len);
 if (full_path == NULL)
 {
-    free(path_copy);
+    free(copy);
     return (1);
+}
+if (stat(full_path, &st) == 0)
+{
+strcpy(full_path, token);
+strcat(full_path, "/");
+strcat(full_path, filename);
 }
 
 free(full_path);
