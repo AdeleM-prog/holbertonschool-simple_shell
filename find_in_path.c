@@ -27,6 +27,21 @@ strcpy(copy, path_string);
 token = strtok(copy, ":");
 while (token != NULL)
 {
-    
+len_dir = strlen(token);
+len_file = strlen(filename);
+total_len = len_dir + 1 + len_file + 1;
+
+full_path = malloc(total_len);
+if (full_path == NULL)
+{
+    free(path_copy);
+    return (1);
 }
+
+free(full_path);
+token = strtok(NULL, ";");
+}
+
+free(path_copy);
+return(1);
 }
