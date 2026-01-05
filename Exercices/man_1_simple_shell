@@ -1,0 +1,42 @@
+.TH SIMPLE_SHELL 1 "January 2026" "Holberton"
+
+.SH NAME
+simple_shell - a simple command line interpreter, inspired by the UNIX shell.
+
+.SH SYNOPSIS
+.B shell
+
+.SH DESCRIPTION
+simple_shell is a simplified command line interpreter that displays a prompt, 
+waits for the user to type a command, reads it and executes it if it exists in the system.
+To execute the command, the shell looks for them in the PATH environment. 
+If found, the command is executed in a child process, waits for it to finish and then displays a new prompt.
+The shell loops until the user exits or an end-of-file (EOF) is reached.
+
+.SH INVOCATION
+The shell is started by executing the shell executable file.
+When starts properly, it displays a '$' and waits for the user input.
+
+.SH BUILTINS
+.TP
+.B exit
+Exits the shell.
+.TP
+.B env
+Displays environment variables.
+
+.SH ENVIRONMENT
+The shell uses the PATH environment inherited from the parent process to locate executable commands.
+
+.SH EXAMPLES
+Run the shell:
+.PP
+./shell
+.PP
+Execute a command:
+.PP
+$ ls -l
+.PP
+Exit the shell:
+.PP
+$ exit
