@@ -20,9 +20,11 @@ char *pathing(char *command)
 			free(path_copy);
 			return (full_path);
 		}
+		free(full_path);
 		token = strtok(NULL, ":");
 	}
 
 	free(path_copy);
+	free(full_path);
 	return (NULL);
 }

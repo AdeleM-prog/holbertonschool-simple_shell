@@ -7,7 +7,7 @@
 char **parsing(char *line)
 {
 	char **args, *token;
-	int i = 0;
+	int i = 0, k = 0;
 
 	args = malloc(64 * sizeof(char *));
 
@@ -15,8 +15,12 @@ char **parsing(char *line)
 	while (token != NULL)
 	{
 		args[i] = strdup(token);
-		if (args == NULL)
+		if (args[i] == NULL)
 		{
+			for (k = 0; k < i; k++)
+				free(args[k]);
+				
+			free(args);
 			exit(EXIT_FAILURE);
 		}
 

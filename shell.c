@@ -1,5 +1,4 @@
 #include "shell.h"
-extern char **environ;
 /**
 * read_line - Reads a command line from standard input
 * Return: Pointer to the read line, NULL on error or EOF
@@ -23,33 +22,29 @@ char *read_line(void)
 }
 
 /**
-* handle_builtin - Handles built-in shell commands (e.g., exit)
+* handle_builtin - Handles built-in shell commands (exit, env)
 * @args: Array of command arguments
-* Return: 1 if the command is handled, 0 otherwise
+* @envp: Pointer to environment variables array
+* Return: -1 to exit shell, 1 if builtin handled, 0 otherwise
 */
-int handle_builtin(char **args)
+int handle_builtin(char **args, char **envp)
 {
 	int j;
 
 	if (strcmp(args[0], "exit") == 0)
 	{
 		for (j = 0; args[j] != NULL; j++)
-		{
 			free(args[j]);
-		}
 		free(args);
 		return (-1);
 	}
 	else if (strcmp(args[0], "env") == 0)
 	{
-		for (j = 0; environ[j] != NULL; j++)
-		{
-			printf("%s\n", environ[j]);
-		}
+		for (j = 0; envp[j] != NULL; j++)
+			printf("%s\n", envp[j]);
 		for (j = 0; args[j] != NULL; j++)
-		{
 			free(args[j]);
-		}
+
 		free(args);
 		return (1);
 	}
@@ -89,7 +84,7 @@ int execute_command(char **args)
 * Description: Main loop that reads, parses, and executes commands
 * Return: Always 0
 */
-int main(void)
+int main(int ac __attribute__((unused)), char **av __attribute__((unused)), char **envp)
 {
 	char *line;
 	char **args;
@@ -111,7 +106,7 @@ int main(void)
 			continue;
 		}
 
-		result = handle_builtin(args);
+		result = handle_builtin(args, envp);
 		if (result == -1)
 		{
 			free(line);
