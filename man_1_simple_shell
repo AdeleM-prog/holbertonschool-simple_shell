@@ -4,7 +4,7 @@
 simple_shell - a simple command line interpreter, inspired by the UNIX shell.
 
 .SH SYNOPSIS
-.B shell
+.B hsh
 
 .SH DESCRIPTION
 simple_shell is a simplified command line interpreter that displays a prompt, 
@@ -31,7 +31,7 @@ The shell uses the PATH environment inherited from the parent process to locate 
 .SH EXAMPLES
 Run the shell:
 .PP
-./shell
+./hsh
 .PP
 Execute a command:
 .PP
