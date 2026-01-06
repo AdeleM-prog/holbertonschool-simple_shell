@@ -11,6 +11,9 @@ char *pathing(char *command)
 	char *token = strtok(path_copy, ":");
 	char *full_path = NULL;
 
+	if (path == NULL)
+		return (NULL);
+
 	while (token != NULL)
 	{
 		full_path = malloc(strlen(token) + strlen(command) + 2);
@@ -25,6 +28,5 @@ char *pathing(char *command)
 	}
 
 	free(path_copy);
-	free(full_path);
 	return (NULL);
 }

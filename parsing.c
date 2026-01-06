@@ -10,6 +10,10 @@ char **parsing(char *line)
 	int i = 0, k = 0;
 
 	args = malloc(64 * sizeof(char *));
+	if (args == NULL)
+	{
+		return (NULL);
+	}
 
 	token = strtok(line, " \r\t\n");
 	while (token != NULL)
@@ -19,7 +23,6 @@ char **parsing(char *line)
 		{
 			for (k = 0; k < i; k++)
 				free(args[k]);
-				
 			free(args);
 			exit(EXIT_FAILURE);
 		}

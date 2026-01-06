@@ -1,0 +1,72 @@
+HSH(1)						General Commands Manual						HSH(1)
+
+NAME
+		hsh - Simple UNIX command line interpreter
+
+SYNOPSIS
+		hsh [command [arg...]]
+
+DESCRIPTION
+		hsh is a simple UNIX command line interpreter that reads commands from
+		the standard input and executes them. It supports both interactive and
+		non-interactive modes.
+
+		In interactive mode, hsh displays a prompt "$ " and reads commands
+		until EOF (Ctrl+D) or the "exit" builtin command is executed.
+
+		In non-interactive mode, hsh reads and executes a single command from
+		standard input and exits.
+
+BUILTIN COMMANDS
+		exit   Exit the shell.
+
+		env    Display all environment variables.
+
+EXAMPLES
+		Interactive mode:
+			$ ./hsh
+			$ ls -la
+			$ env
+			$ exit
+
+		Non-interactive mode:
+			echo "ls -la" | ./hsh
+
+		Script execution:
+			./hsh < script.sh
+
+ERRORS
+		hsh: command not found
+			The specified command was not found in the directories listed in
+			the PATH environment variable.
+
+ENVIRONMENT
+		PATH   Colon-separated list of directories to search for commands.
+			Default: /usr/local/bin:/usr/bin:/bin
+
+		Any environment variables passed to hsh are preserved and available
+		to executed commands via execve(2).
+
+FILES
+		None
+
+RETURN VALUES
+		hsh exits with 0 on success, 1 on error.
+
+BUGS
+		Does not support command chaining (&&, ||, ;).
+		No variable expansion ($VAR).
+		No history or tab completion.
+		Limited error handling for memory allocation failures.
+
+SEE ALSO
+		sh(1), bash(1), execve(2), fork(2), wait(2), getenv(3)
+
+AUTHORS
+		Adèle & Antoine
+
+COLOPHON
+		This page accurately reflects the implementation described in the
+		source code. For full technical details, see the source code.
+
+HSH(1)						General Commands Manual						HSH(1)

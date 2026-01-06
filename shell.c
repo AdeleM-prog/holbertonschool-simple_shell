@@ -34,8 +34,6 @@ int handle_builtin(char **args, char **envp)
 	if (strcmp(args[0], "exit") == 0)
 	{
 		for (j = 0; args[j] != NULL; j++)
-			free(args[j]);
-		free(args);
 		return (-1);
 	}
 	else if (strcmp(args[0], "env") == 0)
@@ -58,13 +56,15 @@ int handle_builtin(char **args, char **envp)
 */
 int execute_command(char **args)
 {
-	int j;
+	int j, k;
 
 	char *full_path = pathing(args[0]);
 
 	if (full_path == NULL)
 	{
 		fprintf(stderr, "shell: %s: command not found\n", args[0]);
+		for (k = 0; args[k] != NULL; k++)
+			free(args[k]);
 		free(args);
 		return (1);
 	}
@@ -81,14 +81,19 @@ int execute_command(char **args)
 
 /**
 * main - Entry point of the shell
+* @ac: Argument count (unused)
+* @av: Argument vector (unused)
+* @envp: Environment variables
 * Description: Main loop that reads, parses, and executes commands
 * Return: Always 0
 */
-int main(int ac __attribute__((unused)), char **av __attribute__((unused)), char **envp)
+int main(int ac __attribute__((unused)),
+		char **av __attribute__((unused)),
+		char **envp)
 {
 	char *line;
 	char **args;
-	int result;
+	int result, k;
 
 	while (1)
 	{
@@ -109,6 +114,9 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 		result = handle_builtin(args, envp);
 		if (result == -1)
 		{
+			for (k = 0; args[k] != NULL; k++)
+				free(args[k]);
+			free(args);
 			free(line);
 			break;
 		}
