@@ -93,14 +93,23 @@ int main(int ac __attribute__((unused)),
 	char **args;
 	int result, k;
 
+	interactive = isatty(STDIN_FILENO);
+
 	while (1)
 	{
-		printf("$ ");
-		fflush(stdout);
+		if (interactive)
+		{
+			printf("$ ");
+			fflush(stdout);
+		}
+		
 		line = read_line();
-
 		if (line == NULL)
+		{
+			if (interactive)
+				printf("\n");
 			break;
+		}
 
 		args = parsing(line);
 		if (args == NULL || args[0] == NULL)
@@ -124,7 +133,7 @@ int main(int ac __attribute__((unused)),
 			continue;
 		}
 
-		execute_command(args, av[0]);
+		execute_command(args, av[0], envp);
 		free(line);
 	}
 	return (0);

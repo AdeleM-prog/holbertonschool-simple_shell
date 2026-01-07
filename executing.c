@@ -16,7 +16,7 @@ void executing(char **args, char *prog_name)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(args[0], args, NULL) == -1)
+		if (execve(args[0], args, envp) == -1)
 		{
 			fprintf(stderr, "%s: 1: %s: not found\n", prog_name, args[0]);
 			perror("shell");
