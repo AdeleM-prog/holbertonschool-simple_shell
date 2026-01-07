@@ -127,6 +127,9 @@ int main(int ac __attribute__((unused)), char **av, char **envp)
 			free(line);
 			continue;
 		}
+
+        i = 0;
+        args[0] = NULL;
 token = strtok(cmd, " \t");
 while (token != NULL && i < 9)
 {
