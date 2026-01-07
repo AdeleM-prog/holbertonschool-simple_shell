@@ -11,92 +11,124 @@
  */
 char *read_line(void)
 {
-    char *line = NULL;
-    size_t len = 0, i = 0, start = 0, j, read;
-    ssize_t read_bytes = getline(&line, &len, stdin);
+	char *line = NULL;
+	size_t len = 0;
+	ssize_t read;
 
-    line = malloc(1024);
-    if (!line)
-        return (NULL);
-    
-    read_bytes = getline(&line, &len, stdin);
-    if (read_bytes == -1)
-    {
-        free(line);
-        return (NULL);
-    }
-    
-    read = (size_t)read_bytes;
+	read = getline(&line, &len, stdin);
+	if (read == -1)
+	{
+		free(line);
+		return (NULL);
+	}
 
-    while (read > 0 && (line[read - 1] == '\n' || line[read - 1] == ' ' || line[read - 1] == '\t'))
-        line[--read] = '\0';
-    
-    while (start < read && (line[start] == ' ' || line[start] == '\t'))
-        start++;
-    
-    for (j = start; j < read; j++)
-        line[i++] = line[j];
-    line[i] = '\0';
+	if (read > 0 && line[read - 1] == '\n')
+		line[read - 1] = '\0';
 
-    return (line);
+	return (line);
 }
 
 /**
- * execute_cmd - Execute exact command path (0.1)
- * @cmd: Full path
+ * trim_spaces - Remove leading and trailing spaces
+ * @str: Input string
+ * Return: Pointer to trimmed string
+ */
+char *trim_spaces(char *str)
+{
+	char *end;
+
+	while (*str == ' ' || *str == '\t')
+		str++;
+
+	if (*str == '\0')
+		return (str);
+
+	end = str + strlen(str) - 1;
+	while (end > str && (*end == ' ' || *end == '\t'))
+	{
+		*end = '\0';
+		end--;
+	}
+
+	return (str);
+}
+
+/**
+ * execute_cmd - Execute exact command path (Simple shell 0.1)
+ * @cmd: Full command path
  * @prog_name: argv[0]
  * @envp: Environment
  */
 void execute_cmd(char *cmd, char *prog_name, char **envp)
 {
-    pid_t pid;
-    int status;
-    char *args[2];
+	pid_t pid;
+	int status;
+	char *args[2];
 
-    args[0] = cmd;
-    args[1] = NULL;
+	args[0] = cmd;
+	args[1] = NULL;
 
-    if (access(cmd, F_OK | X_OK) == -1)
-    {
-        fprintf(stderr, "%s: 1: %s: not found\n", prog_name, cmd);
-        return;
-    }
+	if (access(cmd, F_OK | X_OK) == -1)
+	{
+		fprintf(stderr, "%s: 1: %s: not found\n", prog_name, cmd);
+		return;
+	}
 
-    pid = fork();
-    if (pid == 0)
-    {
-        if (execve(cmd, args, envp) == -1)
-            exit(127);
-    }
-    else if (pid > 0)
-        wait(&status);
-    else
-        perror("fork");
+	pid = fork();
+	if (pid == 0)
+	{
+		if (execve(cmd, args, envp) == -1)
+			exit(127);
+	}
+	else if (pid > 0)
+	{
+		wait(&status);
+	}
+	else
+	{
+		perror("fork");
+	}
 }
 
 /**
  * main - Simple shell 0.1
+ * @ac: Argument count (unused)
+ * @av: Argument vector
+ * @envp: Environment
+ * Return: Always 0
  */
 int main(int ac __attribute__((unused)), char **av, char **envp)
 {
-    char *line;
+	char *line;
+	char *cmd;
 
-    while (1)
-    {
-        if (isatty(STDIN_FILENO))
-        {
-            printf("$ ");
-            fflush(stdout);
-        }
-        line = read_line();
-        if (line == NULL)
-        {
-            if (isatty(STDIN_FILENO))
-                printf("\n");
-            break;
-        }
-        execute_cmd(line, av[0], envp);
-        free(line);
-    }
-    return (0);
+	while (1)
+	{
+		if (isatty(STDIN_FILENO))
+		{
+			printf("$ ");
+			fflush(stdout);
+		}
+
+		line = read_line();
+		if (line == NULL)
+		{
+			if (isatty(STDIN_FILENO))
+				printf("\n");
+			break;
+		}
+
+		cmd = trim_spaces(line);
+
+		if (*cmd == '\0')
+		{
+			free(line);
+			continue;
+		}
+
+		execute_cmd(cmd, av[0], envp);
+		free(line);
+	}
+
+	return (0);
 }
