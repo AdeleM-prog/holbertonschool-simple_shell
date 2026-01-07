@@ -2,16 +2,15 @@
 /**
 * executing - Executes a command with its arguments
 * @args: Array of command arguments
+* @prog_name: Name of the program
 */
-void executing(char **args, char *prog_name)
+void executing(char **args, char *prog_name, char **envp)
 {
 	pid_t pid;
 	int status;
 
 	if (args[0] == NULL)
-	{
 		return;
-	}
 
 	pid = fork();
 	if (pid == 0)
@@ -20,7 +19,7 @@ void executing(char **args, char *prog_name)
 		{
 			fprintf(stderr, "%s: 1: %s: not found\n", prog_name, args[0]);
 			perror("shell");
-			exit(EXIT_FAILURE);
+			exit(127);
 		}
 	}
 	else if (pid > 0)

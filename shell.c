@@ -52,10 +52,9 @@ int handle_builtin(char **args, char **envp)
 * @args: Array of command arguments
 * Return: 0 if command executed, 1 on error
 */
-int execute_command(char **args, char *prog_name)
+int execute_command(char **args, char *prog_name, char **envp)
 {
 	int j, k;
-
 	char *full_path = pathing(args[0]);
 
 	if (full_path == NULL)
@@ -67,22 +66,50 @@ int execute_command(char **args, char *prog_name)
 		return (1);
 	}
 	args[0] = full_path;
-	executing(args, prog_name);
+	executing(args, prog_name, envp);
 	for (j = 1; args[j] != NULL; j++)
-	{
 		free(args[j]);
-	}
 	free(args[0]);
 	free(args);
 	return (0);
 }
 
 /**
+* process_command - Processes and executes a command
+* @line: Command line
+* @av: Argument vector
+* @envp: Environment variables
+* Return: -1 to exit, 0 to continue
+*/
+int process_command(char *line, char **av, char **envp)
+{
+	char **args;
+	int result, k;
+
+	args = parsing(line);
+	if (args == NULL || args[0] == NULL)
+		return (0);
+
+	result = handle_builtin(args, envp);
+	if (result == -1)
+	{
+		for (k = 0; args[k] != NULL; k++)
+			free(args[k]);
+		free(args);
+		return (-1);
+	}
+	else if (result == 1)
+		return (0);
+
+	execute_command(args, av[0], envp);
+	return (0);
+}
+
+/**
 * main - Entry point of the shell
 * @ac: Argument count (unused)
-* @av: Argument vector (unused)
+* @av: Argument vector
 * @envp: Environment variables
-* Description: Main loop that reads, parses, and executes commands
 * Return: Always 0
 */
 int main(int ac __attribute__((unused)),
@@ -90,10 +117,7 @@ int main(int ac __attribute__((unused)),
 		char **envp)
 {
 	char *line;
-	char **args;
-	int result, k;
-
-	interactive = isatty(STDIN_FILENO);
+	int interactive = isatty(STDIN_FILENO);
 
 	while (1)
 	{
@@ -102,7 +126,7 @@ int main(int ac __attribute__((unused)),
 			printf("$ ");
 			fflush(stdout);
 		}
-		
+
 		line = read_line();
 		if (line == NULL)
 		{
@@ -110,30 +134,11 @@ int main(int ac __attribute__((unused)),
 				printf("\n");
 			break;
 		}
-
-		args = parsing(line);
-		if (args == NULL || args[0] == NULL)
+		if (process_command(line, av, envp) == -1)
 		{
-			free(line);
-			continue;
-		}
-
-		result = handle_builtin(args, envp);
-		if (result == -1)
-		{
-			for (k = 0; args[k] != NULL; k++)
-				free(args[k]);
-			free(args);
 			free(line);
 			break;
 		}
-		else if (result == 1)
-		{
-			free(line);
-			continue;
-		}
-
-		execute_command(args, av[0], envp);
 		free(line);
 	}
 	return (0);
