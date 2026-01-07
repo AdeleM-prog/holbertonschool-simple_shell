@@ -12,6 +12,6 @@ void executing(char **args);
 char *pathing(char *command);
 int handle_builtin(char **args, char **envp);
 char *read_line(void);
-int execute_command(char **args);
+int execute_command(char **args, char *prog_name);
 
 #endif

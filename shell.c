@@ -32,10 +32,8 @@ int handle_builtin(char **args, char **envp)
 	int j;
 
 	if (strcmp(args[0], "exit") == 0)
-	{
-		for (j = 0; args[j] != NULL; j++)
 		return (-1);
-	}
+
 	else if (strcmp(args[0], "env") == 0)
 	{
 		for (j = 0; envp[j] != NULL; j++)
@@ -54,7 +52,7 @@ int handle_builtin(char **args, char **envp)
 * @args: Array of command arguments
 * Return: 0 if command executed, 1 on error
 */
-int execute_command(char **args)
+int execute_command(char **args, char *prog_name)
 {
 	int j, k;
 
@@ -62,7 +60,7 @@ int execute_command(char **args)
 
 	if (full_path == NULL)
 	{
-		fprintf(stderr, "shell: %s: command not found\n", args[0]);
+		fprintf(stderr, "%s: 1: %s: not found\n", prog_name, args[0]);
 		for (k = 0; args[k] != NULL; k++)
 			free(args[k]);
 		free(args);
@@ -88,7 +86,7 @@ int execute_command(char **args)
 * Return: Always 0
 */
 int main(int ac __attribute__((unused)),
-		char **av __attribute__((unused)),
+		char **av,
 		char **envp)
 {
 	char *line;
@@ -126,7 +124,7 @@ int main(int ac __attribute__((unused)),
 			continue;
 		}
 
-		execute_command(args);
+		execute_command(args, av[0]);
 		free(line);
 	}
 	return (0);
