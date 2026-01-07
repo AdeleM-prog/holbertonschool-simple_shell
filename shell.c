@@ -67,7 +67,7 @@ int execute_command(char **args, char *prog_name)
 		return (1);
 	}
 	args[0] = full_path;
-	executing(args);
+	executing(args, prog_name);
 	for (j = 1; args[j] != NULL; j++)
 	{
 		free(args[j]);

@@ -8,7 +8,7 @@
 #include <sys/wait.h>
 
 char **parsing(char *line);
-void executing(char **args);
+void executing(char **args, char *prog_name);
 char *pathing(char *command);
 int handle_builtin(char **args, char **envp);
 char *read_line(void);

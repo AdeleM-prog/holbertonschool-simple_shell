@@ -3,7 +3,7 @@
 * executing - Executes a command with its arguments
 * @args: Array of command arguments
 */
-void executing(char **args)
+void executing(char **args, char *prog_name)
 {
 	pid_t pid;
 	int status;
@@ -18,8 +18,9 @@ void executing(char **args)
 	{
 		if (execve(args[0], args, NULL) == -1)
 		{
+			fprintf(stderr, "%s: 1: %s: not found\n", prog_name, args[0]);
 			perror("shell");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 	}
 	else if (pid > 0)
