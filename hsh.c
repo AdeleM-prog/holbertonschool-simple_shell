@@ -59,11 +59,13 @@ char *trim_spaces(char *str)
  * @prog_name: argv[0]
  * @envp: Environment
  */
-void execute_cmd(char *cmd, char *prog_name, char **envp)
+void execute_cmd(char **args, char *prog_name, char **envp)
 {
 	pid_t pid;
 	int status;
-	char *cmd = args[0];
+	char *cmd;
+
+    cmd = args[0];
 
 	if (access(cmd, F_OK | X_OK) == -1)
 	{
@@ -98,8 +100,9 @@ int main(int ac __attribute__((unused)), char **av, char **envp)
 {
 	char *line;
 	char *cmd;
-    char *arg[10];
+    char *args[10];
     int i = 0;
+    char *token;
 
 	while (1)
 	{
@@ -139,7 +142,7 @@ if (args[0] == NULL)
     continue;
 }
 
-		execute_cmd(cmd, av[0], envp);
+		execute_cmd(args, av[0], envp);
 		free(line);
 	}
 
