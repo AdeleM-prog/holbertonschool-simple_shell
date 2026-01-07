@@ -12,14 +12,21 @@
 char *read_line(void)
 {
     char *line = NULL;
-    size_t len = 0, i = 0, start = 0;
-    ssize_t read = getline(&line, &len, stdin);
+    size_t len = 0, i = 0, start = 0, j, read;
+    ssize_t read_bytes = getline(&line, &len, stdin);
 
-    if (read == -1)
+    line = malloc(1024);
+    if (!line)
+        return (NULL);
+    
+    read_bytes = getline(&line, &len, stdin);
+    if (read_bytes == -1)
     {
         free(line);
         return (NULL);
     }
+    
+    read = (size_t)read_bytes;
 
     while (read > 0 && (line[read - 1] == '\n' || line[read - 1] == ' ' || line[read - 1] == '\t'))
         line[--read] = '\0';
@@ -27,7 +34,7 @@ char *read_line(void)
     while (start < read && (line[start] == ' ' || line[start] == '\t'))
         start++;
     
-    for (size_t j = start; j < read; j++)
+    for (j = start; j < read; j++)
         line[i++] = line[j];
     line[i] = '\0';
 
