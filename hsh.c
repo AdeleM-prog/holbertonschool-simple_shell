@@ -20,8 +20,10 @@ char *read_line(void)
         free(line);
         return (NULL);
     }
-    if (read > 0 && line[read - 1] == '\n')
-        line[read - 1] = '\0';
+
+    while (read > 0 && (line[read - 1] == '\n' || line[read - 1] == ' ' || line[read - 1] == '\t'))
+        line[--read] = '\0';
+
     return (line);
 }
 
