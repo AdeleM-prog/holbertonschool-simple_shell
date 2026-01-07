@@ -79,7 +79,7 @@ int main(int ac __attribute__((unused)), char **av, char **envp)
                 printf("\n");
             break;
         }
-        
+
         while (*line == ' ' || *line == '\t')
         line++;
 
@@ -91,6 +91,6 @@ int main(int ac __attribute__((unused)), char **av, char **envp)
         }
         execute_cmd(line, av[0], envp);
         free(line);
-    }
+
     return (0);
 }
