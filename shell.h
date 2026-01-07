@@ -1,0 +1,15 @@
+#ifndef SHELL_H
+#define SHELL_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+char *read_line(void);
+char *trim_spaces(char *str);
+void execute_cmd(char **args, char *prog_name, char **envp);
+
+#endif
