@@ -50,6 +50,8 @@ int handle_builtin(char **args, char **envp)
 /**
 * execute_command - Executes an external command (via execve)
 * @args: Array of command arguments
+* @prog_name: Name of program
+* @envp: Environement
 * Return: 0 if command executed, 1 on error
 */
 int execute_command(char **args, char *prog_name, char **envp)

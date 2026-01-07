@@ -3,6 +3,7 @@
 * executing - Executes a command with its arguments
 * @args: Array of command arguments
 * @prog_name: Name of the program
+* @envp: Environement
 */
 void executing(char **args, char *prog_name, char **envp)
 {
