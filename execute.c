@@ -1,17 +1,17 @@
 #include "shell.h"
 /**
- * execute_cmd - Execute exact command path (Simple shell 0.1)
- * @cmd: Full command path
- * @prog_name: argv[0]
- * @envp: Environment
- */
+* execute_cmd - Execute exact command path (Simple shell 0.1)
+* @cmd: Full command path
+* @prog_name: argv[0]
+* @envp: Environment
+*/
 void execute_cmd(char **args, char *prog_name, char **envp)
 {
 	pid_t pid;
 	int status;
 	char *cmd;
 
-    cmd = args[0];
+	cmd = args[0];
 
 	if (access(cmd, F_OK | X_OK) == -1)
 	{

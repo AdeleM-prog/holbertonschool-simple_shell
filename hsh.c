@@ -8,11 +8,7 @@
  */
 int main(int ac __attribute__((unused)), char **av, char **envp)
 {
-	char *line;
-	char *cmd;
-    char *args[10];
-    int i = 0;
-    char *token;
+	char *line, *cmd, *args[10];
 
 	while (1)
 	{
@@ -38,22 +34,13 @@ int main(int ac __attribute__((unused)), char **av, char **envp)
 			continue;
 		}
 
-        i = 0;
-        args[0] = NULL;
-token = strtok(cmd, " \t");
-while (token != NULL && i < 9)
-{
-    args[i] = token;
-    i++;
-    token = strtok(NULL, " \t");
-}
-args[i] = NULL;
+		tokenize(cmd, args);
 
-if (args[0] == NULL)
-{
-    free(line);
-    continue;
-}
+		if (args[0] == NULL)
+		{
+			free(line);
+			continue;
+		}
 
 		execute_cmd(args, av[0], envp);
 		free(line);

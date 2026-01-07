@@ -10,6 +10,7 @@
 
 char *read_line(void);
 char *trim_spaces(char *str);
+void tokenize(char *line, char **args);
 void execute_cmd(char **args, char *prog_name, char **envp);
 
 #endif
