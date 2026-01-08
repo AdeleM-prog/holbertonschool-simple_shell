@@ -6,7 +6,7 @@
  * Return: if success, string containing the path, NULL if fail
  */
  char *search_path(char *cmd, char **envp)
- {
+{
     int i, j, has_slash = 0;
     char *path_copy, *token, *copy, *path = NULL, *full_path;
     size_t len_dir, len_cmd;
@@ -67,7 +67,7 @@ for (i = 0; cmd[i] != '\0'; i++)
             }
 
             strcpy(full_path, token);
-            full_path[len_dir] = '/');
+            full_path[len_dir] = '/';
             strcpy(full_path + len_dir + 1, cmd);
 
             if (access(full_path, F_OK | X_OK) == 0)
@@ -82,4 +82,5 @@ for (i = 0; cmd[i] != '\0'; i++)
         free(path_copy);
         return(NULL);
     }
+    return (NULL);
 }
