@@ -11,7 +11,7 @@ void execute_cmd(char **args, char *prog_name, char **envp)
 	int status;
 	char *path;
 
-	path = search_path(args[0], envp);
+	path = dispatch_path(args[0], envp);
 	if (path == NULL)
 	{
 		fprintf(stderr, "%s: 1: %s: not found\n", prog_name, args[0]);
