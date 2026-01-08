@@ -38,7 +38,7 @@ for (i = 0; cmd[i] != '\0'; i++)
 
     else if (has_slash != 1)
     {
-        for (j = 0; envp[j] != NULL && envp != NULL; j++)
+        for (j = 0; envp[j] != NULL; j++)
         { 
             if(strncmp(envp[j], "PATH=", 5) == 0)
                 {
