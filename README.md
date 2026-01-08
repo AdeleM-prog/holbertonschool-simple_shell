@@ -24,11 +24,17 @@ It can execute both built-in and external commands using a classic read–parse�
 
 | File | Description |
 |------|-------------|
+| `builtins.c` | Handle exit & env built ins |
+| `execute.c` | Execute commands with fork/execve/wait |
+| `has_slash.c` | Treats / commands |
+| `hsh.c` | Main loop and command handling ||
+| `path.c` | Check if command has / |
+| `read_line.c` | Read input line |
+| `search_in_path.c` | Tokenize & rebuild PATH after checking it |
+| `token.c` | Tokenize strings |
+| `trim.c` | Trim spaces from strings |
 | `shell.h` | Header file with includes and prototypes |
-| `shell.c` | Main loop and command handling |
-| `parsing.c` | Input parsing logic |
-| `pathing.c` | PATH resolution |
-| `executing.c` | Fork and execve execution |
+| `man_1_simple_shell` | Manual page |
 | `README.md` | Project documentation |
 
 ---
@@ -106,7 +112,7 @@ Prevents memory leaks caused by token duplication or getline buffer reuse.
 
 ## 🧭 Flowchart
 
-<img width="519" height="1251" alt="Diagramme sans nom drawio" src="https://github.com/user-attachments/assets/7d40c1cc-25b3-4a96-98cb-e3355970cb7a" />
+<img width="519" height="1251" alt="Diagramme sans nom drawio" src="https://github.com/user-attachments/assets/9f922764-5e9c-44a9-a5c4-740bf3c1f60b" />
 
 ---
 
