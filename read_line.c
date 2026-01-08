@@ -1,9 +1,5 @@
 #include "shell.h"
 /**
-* read_line - Read line from stdin
-* Return: Line or NULL on EOF
-*/
-/**
  * read_line - Read line from stdin
  * Return: Line or NULL on EOF
  */

@@ -1,7 +1,7 @@
 #include "shell.h"
 /**
 * execute_cmd - Execute exact command path (Simple shell 0.1)
-* @cmd: Full command path
+* @args: Full command path
 * @prog_name: argv[0]
 * @envp: Environment
 */

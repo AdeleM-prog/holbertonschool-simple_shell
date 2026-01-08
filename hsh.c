@@ -9,6 +9,7 @@
 int main(int ac __attribute__((unused)), char **av, char **envp)
 {
 	char *line, *cmd, *args[10];
+	int builtin;
 
 	while (1)
 	{
@@ -37,6 +38,19 @@ int main(int ac __attribute__((unused)), char **av, char **envp)
 		tokenize(cmd, args);
 
 		if (args[0] == NULL)
+		{
+			free(line);
+			continue;
+		}
+
+		builtin = handle_builtins(args, envp);
+		if (builtin == -1)
+		{
+			free(line);
+			exit(0);
+		}
+
+		if (builtin == 1)
 		{
 			free(line);
 			continue;

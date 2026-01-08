@@ -4,7 +4,7 @@
 * @line: Command line to tokenize
 * @args: Array of arguments
 */
- void tokenize(char *line, char **args)
+void tokenize(char *line, char **args)
 {
 	int i = 0;
 	char *token;
