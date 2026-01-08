@@ -14,5 +14,8 @@ void tokenize(char *line, char **args);
 void execute_cmd(char **args, char *prog_name, char **envp);
 char *search_path(char *cmd, char **envp);
 int handle_builtins(char **args, char **envp);
+char *cmd_has_slash(char *cmd);
+char *search_path(char *cmd, char **envp);
+char *dispatch_path(char *cmd, char **envp);
 
 #endif
