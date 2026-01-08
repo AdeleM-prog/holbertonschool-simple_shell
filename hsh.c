@@ -16,49 +16,36 @@ int main(int ac __attribute__((unused)), char **av, char **envp)
 		if (isatty(STDIN_FILENO))
 		{
 			printf("$ ");
-			fflush(stdout);
-		}
+			fflush(stdout); }
 
 		line = read_line();
 		if (line == NULL)
 		{
 			if (isatty(STDIN_FILENO))
 				printf("\n");
-			break;
-		}
+			break; }
 
 		cmd = trim_spaces(line);
-
 		if (*cmd == '\0')
 		{
 			free(line);
-			continue;
-		}
-
+			continue; }
 		tokenize(cmd, args);
-
 		if (args[0] == NULL)
 		{
 			free(line);
-			continue;
-		}
-
+			continue; }
 		builtin = handle_builtins(args, envp);
 		if (builtin == -1)
 		{
 			free(line);
-			exit(0);
-		}
-
+			exit(0); }
 		if (builtin == 1)
 		{
 			free(line);
-			continue;
-		}
-
+			continue; }
 		execute_cmd(args, av[0], envp);
-		free(line);
-	}
+		free(line); }
 
 	return (0);
 }

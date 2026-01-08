@@ -7,55 +7,43 @@
 */
 char *search_path(char *cmd, char **envp)
 {
-    int j;
-    char *path = NULL, *path_copy, *token, *full_path;
-    size_t len_dir, len_cmd;
+	int j;
+	char *path = NULL, *path_copy, *token, *full_path;
+	size_t len_dir, len_cmd;
 
-    if (cmd == NULL || envp == NULL)
-        return (NULL);
+	if (cmd == NULL || envp == NULL)
+		return (NULL);
+	for (j = 0; envp[j] != NULL; j++)
+	{
+		if (strncmp(envp[j], "PATH=", 5) == 0)
+		{
+			path = envp[j] + 5;
+			break; } }
+	if (path == NULL || path[0] == '\0')
+		return (NULL);
 
-    for (j = 0; envp[j] != NULL; j++)
-    {
-        if (strncmp(envp[j], "PATH=", 5) == 0)
-        {
-            path = envp[j] + 5;
-            break;
-        }
-    }
-
-    if (path == NULL || path[0] == '\0')
-        return (NULL);
-
-    path_copy = strdup(path);
-    if (path_copy == NULL)
-        return (NULL);
-
-    len_cmd = strlen(cmd);
-    token = strtok(path_copy, ":");
-    while (token != NULL)
-    {
-        len_dir = strlen(token);
-        full_path = malloc(len_dir + 1 + len_cmd + 1);
-        if (full_path == NULL)
-        {
-            free(path_copy);
-            return (NULL);
-        }
-
-        strcpy(full_path, token);
-        full_path[len_dir] = '/';
-        strcpy(full_path + len_dir + 1, cmd);
-
-        if (access(full_path, F_OK | X_OK) == 0)
-        {
-            free(path_copy);
-            return (full_path);
-        }
-
-        free(full_path);
-        token = strtok(NULL, ":");
-    }
-
-    free(path_copy);
-    return (NULL);
+	path_copy = strdup(path);
+	if (path_copy == NULL)
+		return (NULL);
+	len_cmd = strlen(cmd);
+	token = strtok(path_copy, ":");
+	while (token != NULL)
+	{
+		len_dir = strlen(token);
+		full_path = malloc(len_dir + 1 + len_cmd + 1);
+		if (full_path == NULL)
+		{
+			free(path_copy);
+			return (NULL); }
+		strcpy(full_path, token);
+		full_path[len_dir] = '/';
+		strcpy(full_path + len_dir + 1, cmd);
+		if (access(full_path, F_OK | X_OK) == 0)
+		{
+			free(path_copy);
+			return (full_path); }
+		free(full_path);
+		token = strtok(NULL, ":"); }
+	free(path_copy);
+	return (NULL);
 }
