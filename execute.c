@@ -16,7 +16,7 @@ int execute_cmd(char **args, char *prog_name, char **envp)
 	if (path == NULL)
 	{
 		fprintf(stderr, "%s: 1: %s: not found\n", prog_name, args[0]);
-		exit(127);
+		return (127);
 	}
 
 	pid = fork();

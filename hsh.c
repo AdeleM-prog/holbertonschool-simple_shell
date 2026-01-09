@@ -45,7 +45,7 @@ int main(int ac __attribute__((unused)), char **av, char **envp)
 			status = 0;
 			free(line);
 			continue; }
-		execute_cmd(args, av[0], envp);
+		status = execute_cmd(args, av[0], envp);
 		free(line); }
 	return (status);
 }
