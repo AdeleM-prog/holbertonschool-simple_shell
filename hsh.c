@@ -9,7 +9,7 @@
 int main(int ac __attribute__((unused)), char **av, char **envp)
 {
 	char *line, *cmd, *args[10];
-	int builtin;
+	int builtin, status = 0;
 
 	while (1)
 	{
@@ -39,13 +39,13 @@ int main(int ac __attribute__((unused)), char **av, char **envp)
 		if (builtin == -1)
 		{
 			free(line);
-			exit(0); }
+			return (status); }
 		if (builtin == 1)
 		{
+			status = 0;
 			free(line);
 			continue; }
 		execute_cmd(args, av[0], envp);
 		free(line); }
-
-	return (0);
+	return (status);
 }
